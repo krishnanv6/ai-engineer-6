@@ -1,5 +1,6 @@
 from gitsource import GithubRepositoryDataReader
 import frontmatter
+from minsearch import Index
 
 reader = GithubRepositoryDataReader(
     repo_owner="evidentlyai",
@@ -25,5 +26,14 @@ enumerate_documents = list(enumerate(documents))
 
 # print(enumerate_documents[10])
 print(enumerate_documents[10][1]['title'])
-# for doc in documents:
-    # print(f"Title: {doc.get('title', 'No Title')}, filename: {doc.get('filename')}")
+
+
+index = Index(
+    text_fields=["content", "title", "description"],
+    keyword_fields=["filename"]
+)
+index.fit(documents)
+
+query = "LLM as a Judge"
+search_results = index.search(query, num_results=5)
+print(f"number of search results: {len(search_results)}")

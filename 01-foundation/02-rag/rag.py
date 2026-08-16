@@ -6,6 +6,7 @@ import requests
 import io
 import zipfile
 import frontmatter
+from minsearch import Index
 
 print(Path.cwd())
 load_dotenv(r"C:\Users\v2kri\OneDrive\ai\Alex\from-rag-to-agents\ai-engineer-6\.env")
@@ -74,4 +75,13 @@ repo_name = 'docs'
 
 documents = read_github_repository(repo_owner, repo_name)
 print(f"downloaded documents {len(documents)}")
-                                    
+
+index = Index(
+    text_fields=["content", "title", "description"],
+    keyword_fields=["filename"]
+)
+index.fit(documents)
+
+query ='LLM as a Judge'
+results = index.search(query, num_results=5)
+print(len(results))
