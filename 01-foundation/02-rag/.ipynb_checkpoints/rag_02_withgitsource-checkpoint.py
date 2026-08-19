@@ -1,7 +1,7 @@
 from gitsource import GithubRepositoryDataReader
 import frontmatter
 from minsearch import Index
-from gitsource import chunk_documents
+from gitsource import document_chunks
 
 reader = GithubRepositoryDataReader(
     repo_owner="evidentlyai",
@@ -40,5 +40,5 @@ search_results = index.search(query, num_results=5)
 print(f"number of search results: {len(search_results)}")
 
 document_chunks=chunk_documents(documents)
-print(len(document_chunks))
+print(len(document_chunks)
 print(document_chunks[1])
